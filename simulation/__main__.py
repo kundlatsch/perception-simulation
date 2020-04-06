@@ -3,16 +3,13 @@ AUTO_PLANNING_TIME = 4
 
 from pr_system import PerceptionRevision
 from structures import OrderedList
+from random import choice
+
 
 def main():
     # a = PerceptionRevision("agent.txt")
-    a = OrderedList()
-    a.insert('co')
-    a.insert('co')
-    a.insert('co')
-    a.insert('cac')
-    print(a.get_top())
-    
+    print("ok")
+
 
 if __name__ == "__main__":
     main()
