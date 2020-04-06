@@ -7,7 +7,8 @@ from random import choice
 
 
 def main():
-    # a = PerceptionRevision("agent.txt")
+    a = PerceptionRevision("agent.txt", 10, 1)
+    a.process_perceptions(["ball(red)", "uai(a)"])
     print("ok")
 
 

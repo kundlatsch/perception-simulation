@@ -89,3 +89,12 @@ class AvaliationBlock:
             return (vtime, True)
         else:
             return (vtime, False)
+
+class Autoplanner():
+
+    def __init__(self, actions):
+        self.actions = actions
+
+    def plan(perception):
+        print('planned')
+    

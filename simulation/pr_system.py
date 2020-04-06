@@ -13,20 +13,39 @@ from utils import (
     parse_perception,
 )
 
-from structures import AvaliationBlock
+from structures import AvaliationBlock, Autoplanner
+
+from random import choice
 
 
 class PerceptionRevision:
-    def __init__(self, agent):
+    def __init__(self, agent, reasoning_at, autoplanning_at):
         self.plans = parse_agent_plans(agent)
         self.actions = get_perceptions_actions(self.plans)
+        # print(self.plans)
+        # print(self.actions)
+        
 
         self.context_bodies, self.context_args = get_agent_context(self.plans)
         self.context = self.context_bodies.union(self.context_args)
+        # print(self.context_bodies)
+        # print(self.context_args)
+        # print(self.context)
 
-        self.illusion1_AB = AvaliationBlock()
-        self.illusion2_AB = AvaliationBlock()
-        self.hallucination_AB = AvaliationBlock()
+
+        self.illusion1_AB = AvaliationBlock(reasoning_at, autoplanning_at)
+        self.illusion2_AB = AvaliationBlock(reasoning_at, autoplanning_at)
+        self.hallucination_AB = AvaliationBlock(reasoning_at, autoplanning_at)
+
+        self.avaliation_blocks = (self.illusion1_AB, self.illusion2_AB, self.hallucination_AB)
+
+        self.MAP_PERCEPTION_TO_AB = {
+            'illusion1': self.illusion1_AB,
+            'illusion2': self.illusion2_AB,
+            'hallucination': self.hallucination_AB,
+        }
+
+        self.autoplanner = Autoplanner(self.actions)
 
     def __classify_perception(self, perception: str) -> str:
         """Classify if a perception is an illusion or hallucination.
@@ -49,24 +68,29 @@ class PerceptionRevision:
 
         return "hallucination"
 
-    MAP_PERCEPTION_TO_AB = {
-        'illusion1': self.illusion1_AB,
-        'illusion2': self.illusion2_AB,
-        'hallucination': self.hallucination_AB,
-    }
 
-    def process_perceptions(perceptions):
+    def process_perceptions(self, perceptions):
         
         have_anomaly = False
-        
         # Add each perception to it's respective avaliation block
         for perception in perceptions:
-            perception_type = __classify_perception(perception)
+            perception_type = self.__classify_perception(perception)
 
-            if perception_type in MAP_PERCEPTION_TO_AB:
-                MAP_PERCEPTION_TO_AB[perception_type].push(perception)
+            if perception_type in self.MAP_PERCEPTION_TO_AB:
+                self.MAP_PERCEPTION_TO_AB[perception_type].list.push(perception)
                 have_anomaly = True
         
         if not have_anomaly:
-            return
+            return False
+
+        vtime = 0
+        keep_planning = True
+        
+        while keep_planning:
+            avaliation_block = choice(self.avaliation_blocks)
+            print(avaliation_block)
+            keep_planning = False
+        
+
+
 
