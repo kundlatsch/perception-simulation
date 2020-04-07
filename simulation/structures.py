@@ -58,16 +58,15 @@ class OrderedList:
 
         if S1 > S2:
             new_list = {}
-            
+
             for element in self.__list:
                 if self.__list[element] > 1:
                     new_list[element] = self.__list[element]
-            
+
             self.__list = new_list
-        
+
     def is_empty(self):
         return not bool(self.__list)
-
 
 
 class AvaliationBlock:
@@ -93,11 +92,10 @@ class AvaliationBlock:
         else:
             return (vtime, False)
 
-class Autoplanner():
 
+class Autoplanner:
     def __init__(self, actions):
         self.actions = actions
 
     def plan(self, perception):
-        print('planned')
-    
+        print("planned")

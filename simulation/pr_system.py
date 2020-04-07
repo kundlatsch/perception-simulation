@@ -25,7 +25,6 @@ class PerceptionRevision:
         self.actions = get_perceptions_actions(self.plans)
         # print(self.plans)
         # print(self.actions)
-        
 
         # Now, the context only includes terms from the left side of the plan.
         # Verify if the model uses this definition!
@@ -34,7 +33,6 @@ class PerceptionRevision:
         # print(self.context_bodies)
         # print(self.context_args)
         # print(self.context)
-
 
         self.illusion1_AB = AvaliationBlock(reasoning_at, autoplanning_at)
         self.illusion2_AB = AvaliationBlock(reasoning_at, autoplanning_at)
@@ -45,9 +43,9 @@ class PerceptionRevision:
         self.avaliation_blocks = []
 
         self.MAP_PERCEPTION_TO_AB = {
-            'illusion1': self.illusion1_AB,
-            'illusion2': self.illusion2_AB,
-            'hallucination': self.hallucination_AB,
+            "illusion1": self.illusion1_AB,
+            "illusion2": self.illusion2_AB,
+            "hallucination": self.hallucination_AB,
         }
 
         self.autoplanner = Autoplanner(self.actions)
@@ -73,22 +71,21 @@ class PerceptionRevision:
 
         return "hallucination"
 
-
     def process_perceptions(self, perceptions: List[int]):
-        
+
         have_anomaly = False
         # Add each perception to it's respective avaliation block
         for perception in perceptions:
             perception_type = self.__classify_perception(perception)
 
             if perception_type in self.MAP_PERCEPTION_TO_AB:
-                
+
                 ab = self.MAP_PERCEPTION_TO_AB[perception_type]
                 ab.list.push(perception)
 
                 if ab not in self.avaliation_blocks:
                     self.avaliation_blocks.append(ab)
-                
+
                 have_anomaly = True
 
         if not have_anomaly:
@@ -96,12 +93,12 @@ class PerceptionRevision:
 
         vtime = 0
         keep_planning = True
-        
+
         while keep_planning:
             if self.avaliation_blocks:
                 avaliation_block = choice(self.avaliation_blocks)
                 (vtime, keep_planning) = avaliation_block.evaluate(vtime)
-                
+
                 if keep_planning:
                     plan_perception = avaliation_block.list.pop()
                     self.autoplanner.plan(plan_perception)
@@ -110,9 +107,5 @@ class PerceptionRevision:
                     self.avaliation_blocks.remove(avaliation_block)
             else:
                 keep_planning = False
-        
+
         return vtime
-        
-
-
-

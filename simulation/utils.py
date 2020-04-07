@@ -70,9 +70,9 @@ def parse_perception(perception: str) -> Tuple[str, Union[str, None]]:
     Returns:
         A 2-tuple of body and arg.
     """
-    if '(' in perception:
+    if "(" in perception:
         body, arg = perception.split("(")
         arg = arg.replace(")", "")
         return (body, arg)
-    
+
     return (perception, None)
