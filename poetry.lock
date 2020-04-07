@@ -1,0 +1,24 @@
+[[package]]
+category = "main"
+description = "A useful module for a random text, e-mails and lorem ipsum."
+name = "randomwords"
+optional = false
+python-versions = "*"
+version = "0.2.1"
+
+[package.extras]
+testing = ["pytest"]
+
+[metadata]
+content-hash = "d3f137f6bda53f17d4dae06fe68ef56f9f72198d91fd3b3d4aee2d691ec2340b"
+python-versions = "^3.7"
+
+[metadata.files]
+randomwords = [
+    {file = "RandomWords-0.2.1-py2.7.egg", hash = "sha256:b9719a9e48ef90413c646c4b499bc214edd3dfc805b2862489c49e9d7cf39ed6"},
+    {file = "RandomWords-0.2.1-py3.3.egg", hash = "sha256:e62be08e4d596c0ac4b58e28ba60146afea1be083f4f64588ec5f67e60f00c6f"},
+    {file = "RandomWords-0.2.1-py3.4.egg", hash = "sha256:afd8e8fd9645ce899f18e65d8b24cb1f406dd4b5dce2f9eb181652546fea9585"},
+    {file = "RandomWords-0.2.1-py3.5.egg", hash = "sha256:75a17d4bd3ea3446fea13ea53cea22a26764a5bc715d7c2611c2ab7303dd1de2"},
+    {file = "RandomWords-0.2.1-py3.6.egg", hash = "sha256:c6b2d691d154d474d82d5fc39609ddf0fd8e9cc529b92c3f3ce238e8b7428b8f"},
+    {file = "RandomWords-0.2.1.tar.gz", hash = "sha256:e3214d9b9fdf563edee25163edb03391c923b2a14cfdee1db78fa78115af31ee"},
+]
