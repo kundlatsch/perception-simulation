@@ -64,6 +64,9 @@ class OrderedList:
                     new_list[element] = self.__list[element]
             
             self.__list = new_list
+        
+    def is_empty(self):
+        return not bool(self.__list)
 
 
 
@@ -95,6 +98,6 @@ class Autoplanner():
     def __init__(self, actions):
         self.actions = actions
 
-    def plan(perception):
+    def plan(self, perception):
         print('planned')
     

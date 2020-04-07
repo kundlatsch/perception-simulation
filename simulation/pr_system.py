@@ -15,6 +15,7 @@ from utils import (
 
 from structures import AvaliationBlock, Autoplanner
 
+from typing import List
 from random import choice
 
 
@@ -26,6 +27,8 @@ class PerceptionRevision:
         # print(self.actions)
         
 
+        # Now, the context only includes terms from the left side of the plan.
+        # Verify if the model uses this definition!
         self.context_bodies, self.context_args = get_agent_context(self.plans)
         self.context = self.context_bodies.union(self.context_args)
         # print(self.context_bodies)
@@ -37,7 +40,9 @@ class PerceptionRevision:
         self.illusion2_AB = AvaliationBlock(reasoning_at, autoplanning_at)
         self.hallucination_AB = AvaliationBlock(reasoning_at, autoplanning_at)
 
-        self.avaliation_blocks = (self.illusion1_AB, self.illusion2_AB, self.hallucination_AB)
+        # This could be replaced with a set, but random.choice
+        # gives the error "'set' object is not subscriptable"
+        self.avaliation_blocks = []
 
         self.MAP_PERCEPTION_TO_AB = {
             'illusion1': self.illusion1_AB,
@@ -69,7 +74,7 @@ class PerceptionRevision:
         return "hallucination"
 
 
-    def process_perceptions(self, perceptions):
+    def process_perceptions(self, perceptions: List[int]):
         
         have_anomaly = False
         # Add each perception to it's respective avaliation block
@@ -77,9 +82,15 @@ class PerceptionRevision:
             perception_type = self.__classify_perception(perception)
 
             if perception_type in self.MAP_PERCEPTION_TO_AB:
-                self.MAP_PERCEPTION_TO_AB[perception_type].list.push(perception)
+                
+                ab = self.MAP_PERCEPTION_TO_AB[perception_type]
+                ab.list.push(perception)
+
+                if ab not in self.avaliation_blocks:
+                    self.avaliation_blocks.append(ab)
+                
                 have_anomaly = True
-        
+
         if not have_anomaly:
             return False
 
@@ -87,9 +98,20 @@ class PerceptionRevision:
         keep_planning = True
         
         while keep_planning:
-            avaliation_block = choice(self.avaliation_blocks)
-            print(avaliation_block)
-            keep_planning = False
+            if self.avaliation_blocks:
+                avaliation_block = choice(self.avaliation_blocks)
+                (vtime, keep_planning) = avaliation_block.evaluate(vtime)
+                
+                if keep_planning:
+                    plan_perception = avaliation_block.list.pop()
+                    self.autoplanner.plan(plan_perception)
+
+                if avaliation_block.list.is_empty():
+                    self.avaliation_blocks.remove(avaliation_block)
+            else:
+                keep_planning = False
+        
+        return vtime
         
 
 
