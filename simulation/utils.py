@@ -1,4 +1,4 @@
-from typing import List, Tuple
+from typing import List, Tuple, Union
 
 
 def parse_agent_plans(agent: str) -> List[str]:
@@ -62,7 +62,7 @@ def get_agent_context(plans: List[str]) -> Tuple[List[str], List[str]]:
     return (bodies, args)
 
 
-def parse_perception(perception: str) -> Tuple[str, str]:
+def parse_perception(perception: str) -> Tuple[str, Union[str, None]]:
     """Get the perception body and arg.
 
     Args:
@@ -70,7 +70,9 @@ def parse_perception(perception: str) -> Tuple[str, str]:
     Returns:
         A 2-tuple of body and arg.
     """
-    body, arg = perception.split("(")
-    arg = arg.replace(")", "")
-
-    return (body, arg)
+    if '(' in perception:
+        body, arg = perception.split("(")
+        arg = arg.replace(")", "")
+        return (body, arg)
+    
+    return (perception, None)
