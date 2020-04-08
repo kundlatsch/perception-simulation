@@ -22,5 +22,13 @@ class Simulation():
     
     def start(self):
 
+        vtime = 0
+        perceptions_processed = 0
+
         for i in range(len(self.perception_queue)):
-            self.model.process_perceptions([self.perception_queue.pop(0)])
+            print(f'iteration {i}')
+            (_vtime, pp) = self.model.process_perceptions([self.perception_queue.pop(0)])
+            vtime = vtime + _vtime
+            perceptions_processed = perceptions_processed + pp
+
+        print(f'vtime: {vtime}\nperceptions_processed: {perceptions_processed}') 

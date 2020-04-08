@@ -5,6 +5,7 @@ from .perceptions_options import (
 
 from random_words import RandomWords
 from random import choice, shuffle
+from time import time
 
 
 class PerceptionGenerator:
@@ -14,6 +15,8 @@ class PerceptionGenerator:
         self.valid_p = 100 - invalid_perceptions_percentage
 
     def generate(self):
+        start_time = time()
+        
         valid = []
         invalid = []
 
@@ -32,12 +35,10 @@ class PerceptionGenerator:
             valid.append(perception)
 
         for i in range(invalid_perceptions_number):
-            print(i)
             body = bodies.pop(0).lower()
             arg = args.pop(0).lower()
 
             perception = f"{body}({arg})"
-            print(perception)
             invalid.append(perception)
 
         perceptions = valid + invalid
@@ -50,3 +51,6 @@ class PerceptionGenerator:
             file.write("\n")
 
         file.close()
+
+        final_time = time() - start_time
+        print(f'{self.perceptions_number} perceptions generated in {final_time}')

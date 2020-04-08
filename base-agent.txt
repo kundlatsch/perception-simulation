@@ -1,2 +1,2 @@
-red(ball) -> kick(him); walk(100);
-new(my) -> look;
+square(smooth) -> kick(him); walk(100);
+circle(stripped) -> look;
