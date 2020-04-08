@@ -72,6 +72,7 @@ class PerceptionRevision:
         return "hallucination"
 
     def process_perceptions(self, perceptions: List[int]):
+        print(perceptions)
 
         have_anomaly = False
         # Add each perception to it's respective avaliation block
