@@ -27,15 +27,20 @@ def get_perceptions_actions(plans: List[str]) -> List[str]:
     Returns:
         A list of all actions used in the given plans.
     """
-    actions = set()
+    actions = []
     for plan in plans:
 
         plan_body = plan.split("->")[1]
         plan_actions = plan_body.split(";")
 
         for action in plan_actions:
+            if '(' in action:
+                action = action.split('(')[0]
+            
             action = action.replace(" ", "")
-            actions.add(action)
+
+            if action not in actions:
+                actions.append(action)
 
     actions.remove("")
     return actions
@@ -49,15 +54,18 @@ def get_agent_context(plans: List[str]) -> Tuple[List[str], List[str]]:
     Returns:
         The agent's context, a 2-tuple of bodies and args.
     """
-    bodies = set()
-    args = set()
+    bodies = []
+    args = []
     for plan in plans:
         plan_head = plan.split("->")[0].replace(" ", "")
 
         body, arg = parse_perception(plan_head)
 
-        bodies.add(body)
-        args.add(arg)
+        if body not in bodies:
+            bodies.append(body)
+        
+        if arg not in args:
+            args.append(arg)
 
     return (bodies, args)
 

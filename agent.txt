@@ -1,2 +1,3 @@
-red(ball) -> kick; walk(100);
+red(ball) -> kick(him); walk(100);
 new(my) -> look;
+uai(so) -> walk(new); look(red);

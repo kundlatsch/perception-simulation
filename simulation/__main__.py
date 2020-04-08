@@ -8,10 +8,11 @@ from generator.perceptions import PerceptionGenerator
 
 
 def main():
-    # a = PerceptionRevision("agent.txt", 10, 1)
-    # a.process_perceptions(["ball(red)", "uai"])
-    b = PerceptionGenerator(100, 90)
-    b.generate()
+    a = PerceptionRevision("agent.txt", 10, 1)
+    a.process_perceptions(["ball(red)", "uai(so)"])
+
+    # b = PerceptionGenerator(100, 90)
+    # b.generate()
 
 
 if __name__ == "__main__":

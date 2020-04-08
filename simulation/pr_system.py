@@ -29,7 +29,7 @@ class PerceptionRevision:
         # Now, the context only includes terms from the left side of the plan.
         # Verify if the model uses this definition!
         self.context_bodies, self.context_args = get_agent_context(self.plans)
-        self.context = self.context_bodies.union(self.context_args)
+        self.context = self.context_bodies + self.context_args
         # print(self.context_bodies)
         # print(self.context_args)
         # print(self.context)
@@ -48,7 +48,7 @@ class PerceptionRevision:
             "hallucination": self.hallucination_AB,
         }
 
-        self.autoplanner = Autoplanner(self.actions)
+        self.autoplanner = Autoplanner(self.actions, self.context, agent)
 
     def __classify_perception(self, perception: str) -> str:
         """Classify if a perception is an illusion or hallucination.
