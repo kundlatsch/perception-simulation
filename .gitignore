@@ -129,4 +129,4 @@ dmypy.json
 .pyre/
 
 # Generated files
-./perceptions.txt
+/perceptions.txt
