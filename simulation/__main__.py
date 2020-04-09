@@ -12,10 +12,10 @@ def main():
     # a = PerceptionRevision("agent.txt", 10, 1)
     # a.process_perceptions(["ball(red)", "uai(so)"])
 
-    b = PerceptionGenerator(5000, 95)
-    b.generate()
+    # b = PerceptionGenerator(100, 95)
+    # b.generate()
 
-    c = Simulation(1, 32)
+    c = Simulation(1, 32, reload_agent=False)
     c.start()
 
 if __name__ == "__main__":

@@ -3,7 +3,7 @@ from shutil import copyfile
 
 class Simulation():
 
-    def __init__(self, reasoning_at, autoplanning_at, debug=0):
+    def __init__(self, reasoning_at, autoplanning_at, reload_agent=True, debug=0):
         self.perception_queue = []
         
         perceptions = open('perceptions.txt', 'r')
@@ -16,7 +16,8 @@ class Simulation():
         
         # A copy of the base agent is created because the autoplanner
         # will change the file.
-        copyfile('base-agent.txt', 'agent.txt')
+        if reload_agent:
+            copyfile('base-agent.txt', 'agent.txt')
 
         self.model = PerceptionRevision("agent.txt", reasoning_at, autoplanning_at)
     

@@ -35,6 +35,7 @@ class PerceptionRevision:
         self.illusion1_AB = AvaliationBlock(reasoning_at, autoplanning_at)
         self.illusion2_AB = AvaliationBlock(reasoning_at, autoplanning_at)
         self.hallucination_AB = AvaliationBlock(reasoning_at, autoplanning_at)
+        self.reasoning_at = reasoning_at
 
         # This could be replaced with a set, but random.choice
         # gives the error "'set' object is not subscriptable"
@@ -45,6 +46,7 @@ class PerceptionRevision:
             "illusion2": self.illusion2_AB,
             "hallucination": self.hallucination_AB,
         }
+
 
         self.autoplanner = Autoplanner(self.actions, self.context, agent)
     
@@ -97,7 +99,7 @@ class PerceptionRevision:
                 anomalies = anomalies + 1
 
         if not have_anomaly:
-            return (0, len(perceptions))
+            return (self.reasoning_at, len(perceptions))
 
         vtime = 0
         keep_planning = True
