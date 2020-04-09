@@ -7,6 +7,7 @@ authors = ["kundlatsch <gustavo.kundlatsch@gmail.com>"]
 [tool.poetry.dependencies]
 python = "^3.7"
 RandomWords = "^0.2.1"
+click = "^7.1.1"
 
 [tool.poetry.dev-dependencies]
 

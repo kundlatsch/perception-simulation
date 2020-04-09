@@ -1,22 +1,26 @@
-REASONING_CYCLE_TIME = 1
-AUTO_PLANNING_TIME = 4
-
-from pr_system import PerceptionRevision
-from structures import OrderedList
 from simulation import Simulation
-from random import choice
 from generator.perceptions import PerceptionGenerator
 
+import click
 
-def main():
-    # a = PerceptionRevision("agent.txt", 10, 1)
-    # a.process_perceptions(["ball(red)", "uai(so)"])
+generate_help_str = 'Generate perceptions. Require 2 args: total number of perceptions and percentage of invalid perceptions, in this order. Exemple: --generate 500 80'
+reload_help_str = 'Reload or not current agent file. If true, will overwrite agent.txt with base-agent.txt file, removing plans created by the autoplanner.'
+reasoning_time_help_str = 'Define agent\'s avarege reasoning time. Default is 1, as proposed in the paper.'
+planning_time_help_str = 'Define agent\'s autoplanner avarege time. Default is 32, but any value can be used.'
 
-    # b = PerceptionGenerator(100, 95)
-    # b.generate()
+@click.command()
+@click.option('--generate', '-G', default=0, nargs=2, help=generate_help_str)
+@click.option('--reload-agent/--not-reload', '-R/', default=True, help=reload_help_str)
+@click.option('--reasoning-time', default=1, help=reasoning_time_help_str)
+@click.option('--planning-time', default=32, help=planning_time_help_str)
+def run(generate, reload_agent, reasoning_time, planning_time):
 
-    c = Simulation(1, 32, reload_agent=False)
-    c.start()
+    if generate:
+        g = PerceptionGenerator(*generate)
+        g.generate()
+
+    s = Simulation(reasoning_time, planning_time, reload_agent=reload_agent)
+    s.start()
 
 if __name__ == "__main__":
-    main()
+    run()
