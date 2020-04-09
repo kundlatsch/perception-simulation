@@ -39,5 +39,8 @@ class Simulation:
             vtime = vtime + _vtime
             perceptions_processed = perceptions_processed + pp
 
+
         print(f"vtime: {vtime}\nperceptions_processed: {perceptions_processed}")
         print(f"{self.model.autoplanner.plans_created} new plans created")
+
+        return (vtime, perceptions_processed, self.model.autoplanner.plans_created)
