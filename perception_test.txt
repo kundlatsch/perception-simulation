@@ -1,2 +1,0 @@
-ball(red), wine, water;
-table, juice(orange);
