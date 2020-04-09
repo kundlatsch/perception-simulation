@@ -104,6 +104,7 @@ class Autoplanner:
         self.actions = actions
         self.context = context
         self.agent = agent
+        self.plans_created = 0
 
     def plan(self, perception):
         
@@ -132,6 +133,8 @@ class Autoplanner:
         agent_file.write('\n' + new_plan)
 
         agent_file.close()
+
+        self.plans_created = self.plans_created + 1
 
 
 

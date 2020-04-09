@@ -1,5 +1,6 @@
 from pr_system import PerceptionRevision
 from shutil import copyfile
+from random import randint
 
 class Simulation():
 
@@ -22,14 +23,19 @@ class Simulation():
         self.model = PerceptionRevision("agent.txt", reasoning_at, autoplanning_at)
     
     def start(self):
-
         vtime = 0
         perceptions_processed = 0
 
-        for i in range(len(self.perception_queue)):
-            print(f'iteration {i}')
-            (_vtime, pp) = self.model.process_perceptions([self.perception_queue.pop(0)])
+        while self.perception_queue:
+            perceptions_number = randint(1, 5)
+            if perceptions_number > len(self.perception_queue):
+                perceptions_number = len(self.perception_queue)
+            
+            perceptions = [self.perception_queue.pop(0) for i in range(perceptions_number)]
+            
+            (_vtime, pp) = self.model.process_perceptions(perceptions)
             vtime = vtime + _vtime
             perceptions_processed = perceptions_processed + pp
 
-        print(f'vtime: {vtime}\nperceptions_processed: {perceptions_processed}') 
+        print(f'vtime: {vtime}\nperceptions_processed: {perceptions_processed}')
+        print(f'{self.model.autoplanner.plans_created} new plans created') 
