@@ -1,6 +1,8 @@
 from simulation import Simulation
+from analyzer import get_mean
 from generator.perceptions import PerceptionGenerator
 import strings
+from time import time
 
 import click
 
@@ -13,8 +15,12 @@ import click
 @click.option("--iterations", "-I", default=1)
 def run(generate, reload_agent, reasoning_time, planning_time, iterations):
 
+    open('results.txt', 'w').close()
+    start_time = time()
+
     for i in range(iterations):
         print(f'------------\nSIMULATION {i}\n------------')
+
         if generate:
             g = PerceptionGenerator(*generate)
             g.generate()
@@ -26,7 +32,11 @@ def run(generate, reload_agent, reasoning_time, planning_time, iterations):
         results.write(f'{vtime},{perceptions_processed},{plans_created};')
         results.close()
 
-
+    final_time = time()
+    total_time = final_time - start_time
+    print(f'------------\nFinished Simulations\nTime elapsed: {total_time}\n------------')
+    print('Results:')
+    get_mean()
 
 if __name__ == "__main__":
     run()
