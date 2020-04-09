@@ -16,7 +16,7 @@ class PerceptionGenerator:
 
     def generate(self):
         start_time = time()
-        
+
         valid = []
         invalid = []
 
@@ -53,4 +53,4 @@ class PerceptionGenerator:
         file.close()
 
         final_time = time() - start_time
-        print(f'{self.perceptions_number} perceptions generated in {final_time}')
+        print(f"{self.perceptions_number} perceptions generated in {final_time}")

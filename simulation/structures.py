@@ -100,6 +100,7 @@ class Autoplanner:
     In this implementation, we just randomly pick agent's action and
     combine with the perceptions choosed to create a new plan.
     """
+
     def __init__(self, actions, context, agent):
         self.actions = actions
         self.context = context
@@ -107,34 +108,31 @@ class Autoplanner:
         self.plans_created = 0
 
     def plan(self, perception):
-        
+
         actions_number = randint(1, len(self.actions))
-        
+
         actions = []
 
         for i in range(actions_number):
             action = choice(self.actions)
             if action not in actions:
                 actions.append(action)
-        
+
         new_actions = []
 
         for action in actions:
             arg = choice(self.context)
-            new_actions.append(f'{action}({arg})')
-        
-        new_plan = f'{perception} ->'
+            new_actions.append(f"{action}({arg})")
+
+        new_plan = f"{perception} ->"
 
         for action in new_actions:
-            new_plan = new_plan + ' ' + action + ';'
-        
-        agent_file = open(self.agent, 'a')
+            new_plan = new_plan + " " + action + ";"
 
-        agent_file.write('\n' + new_plan)
+        agent_file = open(self.agent, "a")
+
+        agent_file.write("\n" + new_plan)
 
         agent_file.close()
 
         self.plans_created = self.plans_created + 1
-
-
-

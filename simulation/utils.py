@@ -34,9 +34,9 @@ def get_perceptions_actions(plans: List[str]) -> List[str]:
         plan_actions = plan_body.split(";")
 
         for action in plan_actions:
-            if '(' in action:
-                action = action.split('(')[0]
-            
+            if "(" in action:
+                action = action.split("(")[0]
+
             action = action.replace(" ", "")
 
             if action not in actions:
@@ -63,7 +63,7 @@ def get_agent_context(plans: List[str]) -> Tuple[List[str], List[str]]:
 
         if body not in bodies:
             bodies.append(body)
-        
+
         if arg not in args:
             args.append(arg)
 
