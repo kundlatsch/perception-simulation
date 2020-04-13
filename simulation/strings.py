@@ -6,3 +6,7 @@ reasoning_time_help = (
 planning_time_help = (
     "Define agent's autoplanner avarege time. Default is 32, but any value can be used."
 )
+perceptions_per_cycle_help = (
+    "Define number of perceptions received by the agent each cycle."
+)
+iterations_help = "Number of simulations that will be executed."

@@ -14,8 +14,10 @@ import click
 )
 @click.option("--reasoning-time", default=1, help=strings.reasoning_time_help)
 @click.option("--planning-time", default=32, help=strings.planning_time_help)
-@click.option("--perceptions-per-cycle", "-C", default=1)
-@click.option("--iterations", "-I", default=1)
+@click.option(
+    "--perceptions-per-cycle", "-C", default=1, help=strings.perceptions_per_cycle_help
+)
+@click.option("--iterations", "-I", default=1, help=strings.iterations_help)
 def run(
     generate,
     reload_agent,
