@@ -1,11 +1,11 @@
 from pr_system import PerceptionRevision
 from shutil import copyfile
-from random import randint
 
 
 class Simulation:
-    def __init__(self, reasoning_at, autoplanning_at, reload_agent=True, debug=0):
+    def __init__(self, reasoning_at, autoplanning_at, perceptions_per_cycle, reload_agent=True, debug=0):
         self.perception_queue = []
+        self.perceptions_per_cycle = perceptions_per_cycle
 
         perceptions = open("perceptions.txt", "r")
 
@@ -26,8 +26,9 @@ class Simulation:
         vtime = 0
         perceptions_processed = 0
 
+        perceptions_number = self.perceptions_per_cycle
+        
         while self.perception_queue:
-            perceptions_number = randint(1, 5)
             if perceptions_number > len(self.perception_queue):
                 perceptions_number = len(self.perception_queue)
 
