@@ -3,7 +3,14 @@ from shutil import copyfile
 
 
 class Simulation:
-    def __init__(self, reasoning_at, autoplanning_at, perceptions_per_cycle, reload_agent=True, debug=0):
+    def __init__(
+        self,
+        reasoning_at,
+        autoplanning_at,
+        perceptions_per_cycle,
+        reload_agent=True,
+        debug=0,
+    ):
         self.perception_queue = []
         self.perceptions_per_cycle = perceptions_per_cycle
 
@@ -27,7 +34,7 @@ class Simulation:
         perceptions_processed = 0
 
         perceptions_number = self.perceptions_per_cycle
-        
+
         while self.perception_queue:
             if perceptions_number > len(self.perception_queue):
                 perceptions_number = len(self.perception_queue)
@@ -39,7 +46,6 @@ class Simulation:
             (_vtime, pp) = self.model.process_perceptions(perceptions)
             vtime = vtime + _vtime
             perceptions_processed = perceptions_processed + pp
-
 
         print(f"vtime: {vtime}\nperceptions_processed: {perceptions_processed}")
         print(f"{self.model.autoplanner.plans_created} new plans created")
