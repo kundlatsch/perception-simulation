@@ -1,6 +1,6 @@
 # perception-simulation
 
-### Instalation
+### Installation
 
 Clone this repository and then install the dependencies using [Poetry](https://python-poetry.org/):
 
