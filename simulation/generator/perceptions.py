@@ -1,6 +1,7 @@
 from .perceptions_options import (
     VALID_POSSIBLE_PERCEPTIONS_BODIES,
     VALID_POSSIBLE_PERCEPTIONS_ARGS,
+    INVALID
 )
 
 from random_words import RandomWords
@@ -15,6 +16,11 @@ class PerceptionGenerator:
         self.valid_p = 100 - invalid_perceptions_percentage
         self.perceptions_per_line = perceptions_per_line
 
+    def create_valid_perception(self):
+        body = choice(VALID_POSSIBLE_PERCEPTIONS_BODIES)
+        arg = choice(VALID_POSSIBLE_PERCEPTIONS_ARGS)
+        return f"{body}({arg})"
+
     def generate(self):
         start_time = time()
 
@@ -27,17 +33,18 @@ class PerceptionGenerator:
         random_words = RandomWords()
         bodies = random_words.random_words(count=invalid_cycles*self.perceptions_per_line)
         args = random_words.random_words(count=invalid_cycles*self.perceptions_per_line)
-        
+
         for i in range(valid_cycles):
             # Generate perceptions for line
             perception_line = []
             for j in range(self.perceptions_per_line):
-                body = choice(VALID_POSSIBLE_PERCEPTIONS_BODIES)
-                arg = choice(VALID_POSSIBLE_PERCEPTIONS_ARGS)
-
-                perception = f"{body}({arg})"
-                perception_line.append(perception)
+                
+                perception = self.create_valid_perception()
+                while perception in INVALID:
+                    perception = self.create_valid_perception()
             
+                perception_line.append(perception)
+
             # Concatenate perceptions to create line
             final_perception = ""
             for perception in perception_line:
