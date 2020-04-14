@@ -48,7 +48,8 @@ def run(
                 reload_agent=reload_agent,
             )
             vtime, perceptions_processed, plans_created = s.start()
-
+            perceptions_processed = perceptions_processed / perceptions_per_cycle
+            
             results = open("results.txt", "a")
             results.write(f"{vtime},{perceptions_processed},{plans_created};")
             results.close()
@@ -57,8 +58,9 @@ def run(
 
     final_time = time()
     total_time = final_time - start_time
+    total_time = "{:.2f}".format(total_time)
     print(
-        f"------------\nFinished Simulations\nTime elapsed: {total_time}s\n------------"
+        f"------------\nFinished Simulation\nTime elapsed: {total_time}s\n------------"
     )
     print("Results:")
     get_mean()

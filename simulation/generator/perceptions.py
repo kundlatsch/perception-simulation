@@ -27,9 +27,8 @@ class PerceptionGenerator:
         random_words = RandomWords()
         bodies = random_words.random_words(count=invalid_cycles*self.perceptions_per_line)
         args = random_words.random_words(count=invalid_cycles*self.perceptions_per_line)
-
-        i = 0
-        while i < valid_cycles:
+        
+        for i in range(valid_cycles):
             # Generate perceptions for line
             perception_line = []
             for j in range(self.perceptions_per_line):
@@ -46,11 +45,8 @@ class PerceptionGenerator:
 
             # Add final perception string without the last char
             valid.append(final_perception[:-1])
-            i = i + self.perceptions_per_line
         
-        i = 0
-        
-        while i < invalid_cycles:
+        for i in range(invalid_cycles):
             # Generate perceptions for line
             perception_line = []
             for j in range(self.perceptions_per_line):
@@ -67,7 +63,6 @@ class PerceptionGenerator:
             
             # Add final perception string without the last char
             invalid.append(final_perception[:-1])
-            i = i + self.perceptions_per_line
 
         perceptions = valid + invalid
         shuffle(perceptions)
