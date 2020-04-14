@@ -5,6 +5,8 @@ import strings
 from time import time
 
 import click
+from proggy import BarInfo
+from proggy.tty import TTYProgressBar
 
 
 @click.command()
@@ -30,29 +32,33 @@ def run(
     open("results.txt", "w").close()
     start_time = time()
 
-    for i in range(iterations):
-        print(f"-------------\nSIMULATION {i}\n-------------")
+    with TTYProgressBar(BarInfo(size=30, total=iterations)) as p:
 
-        if generate:
-            g = PerceptionGenerator(*generate)
-            g.generate()
+        for i in range(iterations):
+            # print(f"-------------\nSIMULATION {i}\n-------------")
 
-        s = Simulation(
-            reasoning_time,
-            planning_time,
-            perceptions_per_cycle,
-            reload_agent=reload_agent,
-        )
-        vtime, perceptions_processed, plans_created = s.start()
+            if generate:
+                g = PerceptionGenerator(*generate, perceptions_per_cycle)
+                g.generate()
 
-        results = open("results.txt", "a")
-        results.write(f"{vtime},{perceptions_processed},{plans_created};")
-        results.close()
+            s = Simulation(
+                reasoning_time,
+                planning_time,
+                perceptions_per_cycle,
+                reload_agent=reload_agent,
+            )
+            vtime, perceptions_processed, plans_created = s.start()
+
+            results = open("results.txt", "a")
+            results.write(f"{vtime},{perceptions_processed},{plans_created};")
+            results.close()
+            p.progress += 1
+
 
     final_time = time()
     total_time = final_time - start_time
     print(
-        f"------------\nFinished Simulations\nTime elapsed: {total_time}\n------------"
+        f"------------\nFinished Simulations\nTime elapsed: {total_time}s\n------------"
     )
     print("Results:")
     get_mean()

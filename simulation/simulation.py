@@ -9,7 +9,7 @@ class Simulation:
         autoplanning_at,
         perceptions_per_cycle,
         reload_agent=True,
-        debug=0,
+        debug=False,
     ):
         self.perception_queue = []
         self.perceptions_per_cycle = perceptions_per_cycle
@@ -18,7 +18,9 @@ class Simulation:
 
         content = perceptions.readlines()
         for c in content:
-            self.perception_queue.append(c.replace("\n", ""))
+            splited = c.split(',')
+            for s in splited:
+                self.perception_queue.append(s.replace("\n", ""))
 
         perceptions.close()
 
@@ -28,6 +30,7 @@ class Simulation:
             copyfile("base-agent.txt", "agent.txt")
 
         self.model = PerceptionRevision("agent.txt", reasoning_at, autoplanning_at)
+        self.debug = debug
 
     def start(self):
         vtime = 0
@@ -47,7 +50,8 @@ class Simulation:
             vtime = vtime + _vtime
             perceptions_processed = perceptions_processed + pp
 
-        print(f"vtime: {vtime}\nperceptions_processed: {perceptions_processed}")
-        print(f"{self.model.autoplanner.plans_created} new plans created")
+        if self.debug:
+            print(f"vtime: {vtime}\nperceptions_processed: {perceptions_processed}")
+            print(f"{self.model.autoplanner.plans_created} new plans created")
 
         return (vtime, perceptions_processed, self.model.autoplanner.plans_created)

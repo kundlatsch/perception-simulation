@@ -9,10 +9,11 @@ from time import time
 
 
 class PerceptionGenerator:
-    def __init__(self, perceptions_number, invalid_perceptions_percentage):
-        self.perceptions_number = perceptions_number
+    def __init__(self, cycles, invalid_perceptions_percentage, perceptions_per_line):
+        self.cycles = cycles
         self.invalid_p = invalid_perceptions_percentage
         self.valid_p = 100 - invalid_perceptions_percentage
+        self.perceptions_per_line = perceptions_per_line
 
     def generate(self):
         start_time = time()
@@ -20,26 +21,53 @@ class PerceptionGenerator:
         valid = []
         invalid = []
 
-        valid_perceptions_number = int(self.valid_p * self.perceptions_number / 100)
-        invalid_perceptions_number = int(self.invalid_p * self.perceptions_number / 100)
+        valid_cycles = int(self.valid_p * self.cycles / 100)
+        invalid_cycles = int(self.invalid_p * self.cycles / 100)
 
         random_words = RandomWords()
-        bodies = random_words.random_words(count=invalid_perceptions_number)
-        args = random_words.random_words(count=invalid_perceptions_number)
+        bodies = random_words.random_words(count=invalid_cycles*self.perceptions_per_line)
+        args = random_words.random_words(count=invalid_cycles*self.perceptions_per_line)
 
-        for i in range(valid_perceptions_number):
-            body = choice(VALID_POSSIBLE_PERCEPTIONS_BODIES)
-            arg = choice(VALID_POSSIBLE_PERCEPTIONS_ARGS)
+        i = 0
+        while i < valid_cycles:
+            # Generate perceptions for line
+            perception_line = []
+            for j in range(self.perceptions_per_line):
+                body = choice(VALID_POSSIBLE_PERCEPTIONS_BODIES)
+                arg = choice(VALID_POSSIBLE_PERCEPTIONS_ARGS)
 
-            perception = f"{body}({arg})"
-            valid.append(perception)
+                perception = f"{body}({arg})"
+                perception_line.append(perception)
+            
+            # Concatenate perceptions to create line
+            final_perception = ""
+            for perception in perception_line:
+                final_perception = final_perception + perception + ','
 
-        for i in range(invalid_perceptions_number):
-            body = bodies.pop(0).lower()
-            arg = args.pop(0).lower()
+            # Add final perception string without the last char
+            valid.append(final_perception[:-1])
+            i = i + self.perceptions_per_line
+        
+        i = 0
+        
+        while i < invalid_cycles:
+            # Generate perceptions for line
+            perception_line = []
+            for j in range(self.perceptions_per_line):
+                body = bodies.pop(0).lower()
+                arg = args.pop(0).lower()
 
-            perception = f"{body}({arg})"
-            invalid.append(perception)
+                perception = f"{body}({arg})"
+                perception_line.append(perception)
+            
+            # Concatenate perceptions to create line
+            final_perception = ""
+            for perception in perception_line:
+                final_perception = final_perception + perception + ','
+            
+            # Add final perception string without the last char
+            invalid.append(final_perception[:-1])
+            i = i + self.perceptions_per_line
 
         perceptions = valid + invalid
         shuffle(perceptions)
@@ -53,4 +81,4 @@ class PerceptionGenerator:
         file.close()
 
         final_time = time() - start_time
-        print(f"{self.perceptions_number} perceptions generated in {final_time}")
+        # print(f"{len(perceptions)} perceptions cycles generated in {final_time}s")
