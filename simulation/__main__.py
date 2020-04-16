@@ -14,8 +14,8 @@ from proggy.tty import TTYProgressBar
 @click.option(
     "--reload-agent/--not-reload", "-R/", default=True, help=strings.reload_help
 )
-@click.option("--reasoning-time", default=1, help=strings.reasoning_time_help)
-@click.option("--planning-time", default=32, help=strings.planning_time_help)
+@click.option("--reasoning-time", default=1.0, help=strings.reasoning_time_help)
+@click.option("--planning-time", default=32.0, help=strings.planning_time_help)
 @click.option(
     "--perceptions-per-cycle", "-C", default=1, help=strings.perceptions_per_cycle_help
 )

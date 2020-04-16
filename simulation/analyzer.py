@@ -13,13 +13,15 @@ def get_mean():
     for c in content:
         try:
             (vtime, perceptions, plans) = c.split(",")
-            vtimes.append(int(vtime))
+            vtimes.append(float(vtime))
             perceptions_processed.append(float(perceptions))
             plans_created.append(int(plans))
         except ValueError:
             pass
 
-    print(f"VTIME: {mean(vtimes)}")
+    vt_mean = mean(vtimes)
+    vt_string = "{:.2f}".format(vt_mean)
+    print(f"VTIME: {vt_string}")
     
     pp_mean = mean(perceptions_processed)
     pp_string = "{:.2f}".format(pp_mean)

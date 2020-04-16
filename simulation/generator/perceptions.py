@@ -31,8 +31,16 @@ class PerceptionGenerator:
         invalid_cycles = int(self.invalid_p * self.cycles / 100)
 
         random_words = RandomWords()
-        bodies = random_words.random_words(count=invalid_cycles*self.perceptions_per_line)
-        args = random_words.random_words(count=invalid_cycles*self.perceptions_per_line)
+        random_bodies = []
+        random_args = []
+
+        # This module only allows requesting 5450 words at once.
+        # In some cases, we need 76000 words, so we need to do it "manually"
+        for i in range(self.perceptions_per_line):
+            bodies = random_words.random_words(count=invalid_cycles)
+            args = random_words.random_words(count=invalid_cycles)
+            random_bodies = random_bodies + bodies
+            random_args = random_args + args
 
         for i in range(valid_cycles):
             # Generate perceptions for line
@@ -57,8 +65,8 @@ class PerceptionGenerator:
             # Generate perceptions for line
             perception_line = []
             for j in range(self.perceptions_per_line):
-                body = bodies.pop(0).lower()
-                arg = args.pop(0).lower()
+                body = random_bodies.pop(0).lower()
+                arg = random_args.pop(0).lower()
 
                 perception = f"{body}({arg})"
                 perception_line.append(perception)
