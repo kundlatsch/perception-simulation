@@ -1,7 +1,7 @@
 from .perceptions_options import (
     VALID_POSSIBLE_PERCEPTIONS_BODIES,
     VALID_POSSIBLE_PERCEPTIONS_ARGS,
-    INVALID
+    INVALID,
 )
 
 from random_words import RandomWords
@@ -46,21 +46,21 @@ class PerceptionGenerator:
             # Generate perceptions for line
             perception_line = []
             for j in range(self.perceptions_per_line):
-                
+
                 perception = self.create_valid_perception()
                 while perception in INVALID:
                     perception = self.create_valid_perception()
-            
+
                 perception_line.append(perception)
 
             # Concatenate perceptions to create line
             final_perception = ""
             for perception in perception_line:
-                final_perception = final_perception + perception + ','
+                final_perception = final_perception + perception + ","
 
             # Add final perception string without the last char
             valid.append(final_perception[:-1])
-        
+
         for i in range(invalid_cycles):
             # Generate perceptions for line
             perception_line = []
@@ -70,12 +70,12 @@ class PerceptionGenerator:
 
                 perception = f"{body}({arg})"
                 perception_line.append(perception)
-            
+
             # Concatenate perceptions to create line
             final_perception = ""
             for perception in perception_line:
-                final_perception = final_perception + perception + ','
-            
+                final_perception = final_perception + perception + ","
+
             # Add final perception string without the last char
             invalid.append(final_perception[:-1])
 

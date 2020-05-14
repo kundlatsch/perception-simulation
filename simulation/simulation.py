@@ -18,7 +18,7 @@ class Simulation:
 
         content = perceptions.readlines()
         for c in content:
-            splited = c.split(',')
+            splited = c.split(",")
             for s in splited:
                 self.perception_queue.append(s.replace("\n", ""))
 

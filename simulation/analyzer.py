@@ -22,7 +22,7 @@ def get_mean():
     vt_mean = mean(vtimes)
     vt_string = "{:.2f}".format(vt_mean)
     print(f"VTIME: {vt_string}")
-    
+
     pp_mean = mean(perceptions_processed)
     pp_string = "{:.2f}".format(pp_mean)
     print(f"PERCEPTIONS PROCESSED: {pp_string}")

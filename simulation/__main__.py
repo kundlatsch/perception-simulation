@@ -3,6 +3,8 @@ from analyzer import get_mean
 from generator.perceptions import PerceptionGenerator
 import strings
 from time import time
+from pathlib import Path
+import pandas as pd
 
 import click
 from proggy import BarInfo
@@ -29,14 +31,15 @@ def run(
     iterations,
 ):
 
-    open("results.txt", "w").close()
     start_time = time()
+    vtimes = []
+    pps = []
+    pcs = []
 
     with TTYProgressBar(BarInfo(size=30, total=iterations)) as p:
 
         for i in range(iterations):
             # print(f"-------------\nSIMULATION {i}\n-------------")
-
             if generate:
                 g = PerceptionGenerator(*generate, perceptions_per_cycle)
                 g.generate()
@@ -48,13 +51,12 @@ def run(
                 reload_agent=reload_agent,
             )
             vtime, perceptions_processed, plans_created = s.start()
-            perceptions_processed = perceptions_processed / perceptions_per_cycle
-            
-            results = open("results.txt", "a")
-            results.write(f"{vtime},{perceptions_processed},{plans_created};")
-            results.close()
-            p.progress += 1
+            print(plans_created)
+            vtimes.append(vtime)
+            pps.append(perceptions_processed)
+            pcs.append(plans_created)
 
+            p.progress += 1
 
     final_time = time()
     total_time = final_time - start_time
@@ -62,8 +64,16 @@ def run(
     print(
         f"------------\nFinished Simulation\nTime elapsed: {total_time}s\n------------"
     )
-    print("Results:")
-    get_mean()
+
+    d = {"vtime": vtimes, "perceptions_processed": pps, "plans_created": pcs}
+
+    print(d)
+    df = pd.DataFrame(data=d)
+    print(df)
+    p = Path('/results')
+    factors = f"valid{generate[1]}reasoning{reasoning_time}planning{planning_time}perceptions{perceptions_per_cycle}"
+    df.to_csv(f'./results/{factors}.csv', index=False)
+    print(Path(p))
 
 
 if __name__ == "__main__":
