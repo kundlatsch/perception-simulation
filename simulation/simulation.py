@@ -13,7 +13,7 @@ class Simulation:
     ):
         self.perception_queue = []
         self.perceptions_per_cycle = perceptions_per_cycle
-
+        
         perceptions = open("perceptions.txt", "r")
 
         content = perceptions.readlines()
