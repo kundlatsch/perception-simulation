@@ -42,7 +42,7 @@ def run(
     vtimes = []
     pps = []
     pcs = []
-    name_string = factors = f"valid{generate[1]}reasoning{reasoning_time}planning{planning_time}perceptions{perceptions_per_cycle}"
+    name_string = factors = f"valid{generate[1]}reasoning{reasoning_time}planning{planning_time}perceptions{perceptions_per_cycle}reload{str(reload_agent)}"
 
     with TTYProgressBar(BarInfo(size=30, total=iterations)) as p:
 
@@ -52,9 +52,9 @@ def run(
             if generate:
                 g = PerceptionGenerator(*generate, perceptions_per_cycle)
                 g.generate()
-                if not os.path.exists(f'./data/perceptions/{name_string}'):
-                    os.makedirs(f'./data/perceptions/{name_string}')
-                copyfile("perceptions.txt", f"./data/perceptions/{name_string}/iteration{i}.txt")
+                if not os.path.exists(f'./data2/perceptions/{name_string}'):
+                    os.makedirs(f'./data2/perceptions/{name_string}')
+                copyfile("perceptions.txt", f"./data2/perceptions/{name_string}/iteration{i}.txt")
 
             s = Simulation(
                 reasoning_time,
@@ -67,9 +67,9 @@ def run(
             pps.append(perceptions_processed)
             pcs.append(plans_created)
 
-            if not os.path.exists(f'./data/agents/{name_string}'):
-                    os.makedirs(f'./data/agents/{name_string}')
-            copyfile("agent.txt", f"./data/agents/{name_string}/iteration{i}.txt")
+            if not os.path.exists(f'./data2/agents/{name_string}'):
+                    os.makedirs(f'./data2/agents/{name_string}')
+            copyfile("agent.txt", f"./data2/agents/{name_string}/iteration{i}.txt")
 
             p.progress += 1
 
@@ -83,28 +83,36 @@ def run(
     d = {"vtime": vtimes, "perceptions_processed": pps, "plans_created": pcs}
     df = pd.DataFrame(data=d)
     
-    df.to_csv(f'./data/results/{name_string}.csv', index=False)
+    df.to_csv(f'./data2/results/{name_string}.csv', index=False)
 
 
 if __name__ == "__main__":
     # run()
-    # run((5000, 5), True, 1, 0.5, 1, 10)
+    run((5000, 5), True, 1, 0.5, 1, 10)
+    run((5000, 5), False, 1, 0.5, 1, 10)
     # run((5000, 5), True, 1, 0.5, 16, 10)
+    # run((5000, 5), False, 1, 0.5, 16, 10)
     # run((5000, 5), True, 1, 64, 1, 10)
+    # run((5000, 5), False, 1, 64, 1, 10)
     # run((5000, 5), True, 1, 64, 16, 10)
+    # run((5000, 5), False, 1, 64, 16, 10)
     # run((5000, 5), True, 32, 0.5, 1, 10)
+    # run((5000, 5), False, 32, 0.5, 1, 10)
     # run((5000, 5), True, 32, 0.5, 16, 10)
+    # run((5000, 5), False, 32, 0.5, 16, 10)
     # run((5000, 5), True, 32, 64, 1, 10)
+    # run((5000, 5), False, 32, 64, 1, 10)
     # run((5000, 5), True, 32, 64, 16, 10)
+    # run((5000, 5), False, 32, 64, 16, 10)
     
     # run((5000, 95), True, 1, 0.5, 1, 10)
     # run((5000, 95), True, 1, 0.5, 16, 10)
     # run((5000, 95), True, 1, 64, 1, 10)
     # run((5000, 95), True, 1, 64, 16, 10)
-    run((5000, 95), True, 32, 0.5, 1, 10)
-    run((5000, 95), True, 32, 0.5, 16, 10)
-    run((5000, 95), True, 32, 64, 1, 10)
-    run((5000, 95), True, 32, 64, 16, 10)
+    # run((5000, 95), True, 32, 0.5, 1, 10)
+    # run((5000, 95), True, 32, 0.5, 16, 10)
+    # run((5000, 95), True, 32, 64, 1, 10)
+    # run((5000, 95), True, 32, 64, 16, 10)
     
         
     
