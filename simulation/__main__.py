@@ -18,6 +18,7 @@ from proggy.tty import TTYProgressBar
 # for all 16 factors variation, instead of passing the arguments through console
 # every time one simulation ends. Uncommenting this decorators and the first line
 # from main enable console usage again.
+
 # @click.command()
 # @click.option("--generate", "-G", default=0, nargs=2, help=strings.generate_help)
 # @click.option(
@@ -52,9 +53,9 @@ def run(
             if generate:
                 g = PerceptionGenerator(*generate, perceptions_per_cycle)
                 g.generate()
-                if not os.path.exists(f'./data2/perceptions/{name_string}'):
-                    os.makedirs(f'./data2/perceptions/{name_string}')
-                copyfile("perceptions.txt", f"./data2/perceptions/{name_string}/iteration{i}.txt")
+                if not os.path.exists(f'./data3/perceptions/{name_string}'):
+                    os.makedirs(f'./data3/perceptions/{name_string}')
+                copyfile("perceptions.txt", f"./data3/perceptions/{name_string}/iteration{i}.txt")
 
             s = Simulation(
                 reasoning_time,
@@ -67,9 +68,9 @@ def run(
             pps.append(perceptions_processed)
             pcs.append(plans_created)
 
-            if not os.path.exists(f'./data2/agents/{name_string}'):
-                    os.makedirs(f'./data2/agents/{name_string}')
-            copyfile("agent.txt", f"./data2/agents/{name_string}/iteration{i}.txt")
+            if not os.path.exists(f'./data3/agents/{name_string}'):
+                    os.makedirs(f'./data3/agents/{name_string}')
+            copyfile("agent.txt", f"./data3/agents/{name_string}/iteration{i}.txt")
 
             p.progress += 1
 
@@ -83,37 +84,28 @@ def run(
     d = {"vtime": vtimes, "perceptions_processed": pps, "plans_created": pcs}
     df = pd.DataFrame(data=d)
     
-    df.to_csv(f'./data2/results/{name_string}.csv', index=False)
+    df.to_csv(f'./data3/results/{name_string}.csv', index=False)
 
 
 if __name__ == "__main__":
     # run()
-    run((5000, 5), True, 1, 0.5, 1, 10)
-    run((5000, 5), False, 1, 0.5, 1, 10)
-    # run((5000, 5), True, 1, 0.5, 16, 10)
-    # run((5000, 5), False, 1, 0.5, 16, 10)
-    # run((5000, 5), True, 1, 64, 1, 10)
-    # run((5000, 5), False, 1, 64, 1, 10)
-    # run((5000, 5), True, 1, 64, 16, 10)
-    # run((5000, 5), False, 1, 64, 16, 10)
-    # run((5000, 5), True, 32, 0.5, 1, 10)
-    # run((5000, 5), False, 32, 0.5, 1, 10)
-    # run((5000, 5), True, 32, 0.5, 16, 10)
-    # run((5000, 5), False, 32, 0.5, 16, 10)
-    # run((5000, 5), True, 32, 64, 1, 10)
-    # run((5000, 5), False, 32, 64, 1, 10)
-    # run((5000, 5), True, 32, 64, 16, 10)
-    # run((5000, 5), False, 32, 64, 16, 10)
-    
-    # run((5000, 95), True, 1, 0.5, 1, 10)
-    # run((5000, 95), True, 1, 0.5, 16, 10)
-    # run((5000, 95), True, 1, 64, 1, 10)
-    # run((5000, 95), True, 1, 64, 16, 10)
-    # run((5000, 95), True, 32, 0.5, 1, 10)
-    # run((5000, 95), True, 32, 0.5, 16, 10)
-    # run((5000, 95), True, 32, 64, 1, 10)
-    # run((5000, 95), True, 32, 64, 16, 10)
-    
+    run((5000, 50), True, 16, 32, 8, 1)
+    run((5000, 50), False, 16, 32, 8, 1)
+    run((5000, 50), False, 16, 32, 8, 1)
+    run((5000, 50), False, 16, 32, 8, 1)
+    run((5000, 50), False, 16, 32, 8, 1)
+    # run((5000, 5), False, 1, 0.5, 1, 1)
+    # run((5000, 5), True, 1, 0.5, 16, 1)
+    # run((5000, 5), False, 1, 0.5, 16, 1)
+    # run((5000, 5), True, 1, 64, 1, 1)
+    # run((5000, 5), False, 1, 64, 1, 1)
+    # run((5000, 5), True, 1, 64, 16, 1)
+    # run((5000, 5), False, 1, 64, 16, 1)
+    # run((5000, 5), True, 32, 0.5, 1, 1)
+    # run((5000, 5), False, 32, 0.5, 1, 1)
+    # run((5000, 5), True, 32, 0.5, 16, 1)
+    # run((5000, 5), False, 32, 0.5, 16, 1)
+    # run((5000, 5), True, 32, 64, 1, 1)
         
     
     
